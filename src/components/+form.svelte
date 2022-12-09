@@ -1,15 +1,55 @@
-<script>
+<script lang="ts">
+  export let onChange: (values: { second: number, time: Date, source: string }) => void;
+  let source = '';
+  let second = 0;
+  let time = '23:59:59';
 
+  $: {
+    let tagetTime = new Date(new Date().toString().split(":")[0].slice(0,-2) + time);
+
+    if (tagetTime < new Date()) {
+      tagetTime.setDate(tagetTime.getDate() + 1);
+    }
+
+    onChange({ 
+      second, 
+      source,
+      time: tagetTime, 
+   })
+  }
 </script>
 
-<form>
-  <p class="form-text">
+<form class="root">
+  <p class="container">
     <label for="source">Video from URL:</label> 
-    <input type="text" id="source" name="source" placeholder="YouTube link or direct link to video file"><br/>
-    <label for="second">Should play exact second:</label>
-    <input type="number" id="second" name="second" min="0" max="" step="1" value="0"><br/>
+    <input 
+      type="url" 
+      id="source" 
+      name="source" 
+      bind:value={source} 
+      placeholder="YouTube link or direct link to the video file"
+    >
+    <br/>
+    <label for="second">Should play the exact second:</label>
+    <input 
+      type="number" 
+      id="second" 
+      name="second" 
+      min="0" 
+      max="" 
+      step="1" 
+      bind:value={second}
+    >
+    <br/>
     <label for="time">When current time is: </label>
-    <input type="time" id="time" name="time" step="10" value="00:00:00"><br/>
+    <input 
+      type="time" 
+      id="time" 
+      name="time" 
+      step="10"
+      bind:value={time}
+    >
+    <br/> 
   <p>
 </form> 
 
@@ -25,12 +65,12 @@
 
   label {
     display: inline-block;
-    min-width: 232px;
+    min-width: 250px;
   }
 
-  .form-text {
+  .container {
     white-space: nowrap;
-    line-height: 25px;
+    line-height: 32px;
 
     font-size: 18px;
   }
@@ -48,7 +88,7 @@
   }
 
   @media(max-width: 768px) {
-    .form-text {
+    .container {
       white-space: normal;
     }
 

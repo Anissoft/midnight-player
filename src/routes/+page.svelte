@@ -1,10 +1,22 @@
-<script>
+<script lang="ts">
 	import Form from '../components/+form.svelte';
+	import Player from '../components/+player.svelte';
+
+  let videoUrl: string;
+  let videoTimestamp: number;
+  let desiredTime: Date;
+
+  const onChange = ({ source, second, time }: { second: number, time: Date, source: string }) => {
+    videoUrl = source;
+    videoTimestamp = second;
+    desiredTime = time;
+  }
 </script>
 
 <div class="root">
   <div class="container">
-    <Form />
+    <Form onChange={onChange}/>
+    <Player videoUrl={videoUrl} videoTimestamp={videoTimestamp} desiredTime={desiredTime} />
   </div>
 </div>
 
@@ -33,6 +45,8 @@
 
     padding: 32px;
 
+    display: flex;
+    flex-direction: column;
     box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: scroll;
