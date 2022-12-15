@@ -17,6 +17,7 @@
 	};
 
 	onMount(() => {
+    mounted = true;
     source = $page.url.searchParams.get('source') || '';
     second = parseInt($page.url.searchParams.get('second') || '0');
     time = $page.url.searchParams.get('time') || '23:59:59';
