@@ -8,6 +8,7 @@
 	let source = '';
 	let second = 0;
 	let time = '23:59:59';
+  let mounted = false;
 
 	const updateUrl = (event: { currentTarget: EventTarget & HTMLInputElement }) => {
 		if (browser && event.currentTarget !== document.activeElement) {
@@ -16,25 +17,23 @@
 	};
 
 	onMount(() => {
-		source = $page.url.searchParams.get('source') || '';
-		second = parseInt($page.url.searchParams.get('second') || '0');
-		time = $page.url.searchParams.get('time') || '23:59:59';
+    source = $page.url.searchParams.get('source') || '';
+    second = parseInt($page.url.searchParams.get('second') || '0');
+    time = $page.url.searchParams.get('time') || '23:59:59';
 	});
 
 	$: {
-		if (time === '') {
+    if (time === '') {
 			time = '23:59:59';
 		}
-	}
 
-	$: {
 		let tagetTime = new Date(new Date().toString().split(':')[0].slice(0, -2) + time);
 
 		if (tagetTime < new Date()) {
 			tagetTime.setDate(tagetTime.getDate() + 1);
 		}
 
-		if (browser) {
+		if (mounted) {
 			$page.url.searchParams.set('source', source);
 			$page.url.searchParams.set('second', second.toString());
 			$page.url.searchParams.set('time', time);
