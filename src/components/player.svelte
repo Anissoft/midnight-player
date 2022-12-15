@@ -20,7 +20,7 @@
 		if (videoUrl.indexOf('youtube.') !== -1) {
 			const [, videoId] = videoUrl.match(/v=([^&]*)/) || [];
 
-			parsedVideoUrl = `${$page.url.protocol}://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${$page.url.origin}`;
+			parsedVideoUrl = `${$page.url.protocol}//www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${encodeURIComponent($page.url.origin)}`;
 			isYouTube = true;
 
 			// preload
